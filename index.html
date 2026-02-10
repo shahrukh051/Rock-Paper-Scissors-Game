@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors Game</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #be7070;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100vh; /* Ensures it fits exactly the mobile screen */
+            padding: 10px;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            margin: 4px;
+        }
+
+        .btn {
+            padding: 10px;
+            margin: 6px auto;
+            font-size: 18px;
+            cursor: pointer;
+            width: 85%;
+            max-width: 260px;
+            border: 2px solid #333;
+            border-radius: 6px;
+        }
+
+        .choice-images {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin: 4px 0;
+        }
+
+        .choice-images img {
+            width: 90px;
+            height: 90px;
+        }
+
+        #result, #score {
+            font-size: 18px;
+            margin: 4px 0;
+        }
+
+        @media (max-width: 600px) {
+            .btn {
+                font-size: 19px;
+                padding: 12px;
+            }
+            .choice-images img {
+                width: 95px;
+                height: 95px;
+            }
+            #result, #score {
+                font-size: 19px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Rock Paper Scissors</h1>
+
+        <div>
+            <button class="btn" onclick="play('rock')">Rock</button>
+            <button class="btn" onclick="play('paper')">Paper</button>
+            <button class="btn" onclick="play('scissor')">Scissor</button>
+            <button class="btn" onclick="resetGame()">Reset</button>
+        </div>
+
+        <div class="choice-images">
+            <div>
+                Your Choice: <br><img id="user-img" src="" alt="">
+            </div>
+            <div>
+                Computer Choice: <br><img id="comp-img" src="" alt="">
+            </div>
+        </div>
+
+        <div id="result"></div>
+        <div id="score"></div>
+    </div>
+
+    <script>
+        let user_win = 0;
+        let computer_win = 0;
+
+        function play(userChoice) {
+            const options = ["rock", "paper", "scissor"];
+            const computerPick = options[Math.floor(Math.random() * options.length)];
+
+            document.getElementById("user-img").src = userChoice + ".png";
+            document.getElementById("comp-img").src = computerPick + ".png";
+
+            let displayText = "Computer picked: " + computerPick + "<br>";
+
+            if (userChoice === computerPick) {
+                displayText += "It's a tie!";
+            } else if (
+                (userChoice === "scissor" && computerPick === "paper") ||
+                (userChoice === "rock" && computerPick === "scissor") ||
+                (userChoice === "paper" && computerPick === "rock")
+            ) {
+                user_win++;
+                displayText += "You win!";
+            } else {
+                computer_win++;
+                displayText += "Computer wins!";
+            }
+
+            document.getElementById("result").innerHTML = displayText;
+            document.getElementById("score").innerHTML =
+                "You: " + user_win + " | Computer: " + computer_win;
+        }
+
+        function resetGame() {
+            user_win = 0;
+            computer_win = 0;
+            document.getElementById("result").innerHTML = "";
+            document.getElementById("score").innerHTML = "Score reset!";
+            document.getElementById("user-img").src = "";
+            document.getElementById("comp-img").src = "";
+        }
+    </script>
+
+</body>
+</html>
